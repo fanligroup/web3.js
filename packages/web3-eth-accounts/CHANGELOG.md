@@ -136,7 +136,6 @@ Documentation:
 
 -   Fixed "The `r` and `s` returned by `sign` to does not always consist of 64 characters" (#6411)
 
-
 ## [4.1.0]
 
 ### Added
@@ -147,7 +146,7 @@ Documentation:
 
 ### Fixed
 
--   Fixed `recover` function, `v` will be normalized to value 0,1 (#6344) 
+-   Fixed `recover` function, `v` will be normalized to value 0,1 (#6344)
 
 ## [4.1.1]
 
@@ -161,5 +160,27 @@ Documentation:
 ### Changed
 
 -   Dependencies updated
+
+## [4.1.3]
+
+### Changed
+
+-   baseTransaction method updated (#7095)
+
+## [4.2.0]
+
+### Added
+
+-   Added public function `signMessageWithPrivateKey` (#7174)
+
+### Fixed
+
+-   Fix `TransactionFactory.registerTransactionType` not working, if there is a version mistatch between `web3-eth` and `web3-eth-accounts` by saving `extraTxTypes` at `globals`. (#7197)
+
+## [4.2.1]
+
+### Fixed
+
+-   Revert `TransactionFactory.registerTransactionType` if there is a version mistatch between `web3-eth` and `web3-eth-accounts` and fix nextjs problem. (#7216)
 
 ## [Unreleased]

@@ -195,7 +195,7 @@ Documentation:
 
 ### Fixed
 
--   Fix `Web3Config` to properly update within other web3 packages when `setConfig` is used  (#6555)
+-   Fix `Web3Config` to properly update within other web3 packages when `setConfig` is used (#6555)
 
 ### Added
 
@@ -205,7 +205,7 @@ Documentation:
 
 ### Changed
 
--	Web3config `contractDataInputFill` has been defaulted to `data`, istead of `input`. (#6622)
+-   Web3config `contractDataInputFill` has been defaulted to `data`, istead of `input`. (#6622)
 
 ## [4.4.0]
 
@@ -226,5 +226,23 @@ Documentation:
 ### Added
 
 -   Now when existing packages are added in web3, will be avalible for plugins via context. (#7088)
+
+## [4.5.1]
+
+### Fixed
+
+-   `setConfig()` fix for `setMaxListenerWarningThreshold` fix (#5079)
+
+## [4.6.0]
+
+### Added
+
+-   Adds a new property (`customTransactionSchema`) to `Web3ConfigOptions`(#7227)
+
+## [4.7.0]
+
+### Added
+
+-   Added new property `ignoreGasPricing` to `Web3ConfigOptions`. If `ignoreGasPricing` is true, gasPrice will not be estimated (#7320)
 
 ## [Unreleased]

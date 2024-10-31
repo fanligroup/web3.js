@@ -25,7 +25,6 @@ import { erc721Abi, Erc721Interface } from '../fixtures/erc721';
 import { NonPayableMethodObject, PayableMethodObject } from '../../src';
 
 describe('contract typing', () => {
-
 	describe('no abi type', () => {
 		const defaultContractInstance = new Contract([]);
 		// when using new web3.eth.Contract generic is any[] instead of never
@@ -38,11 +37,12 @@ describe('contract typing', () => {
 		]);
 
 		typecheck('should allow any input params', () => [
-			expectTypeOf<Parameters<typeof defaultContractInstance.methods.test>>().toBe<any[]>(),
-			expectTypeOf<Parameters<typeof web3ContractInstance.methods.test>>().toBe<any[]>(),
+			expectTypeOf<Parameters<typeof defaultContractInstance.methods.test>>().toBe<
+				any[] | []
+			>(),
+			expectTypeOf<Parameters<typeof web3ContractInstance.methods.test>>().toBe<any[] | []>(),
 		]);
-
-	})
+	});
 	describe('custom abi', () => {
 		const abi = [
 			{

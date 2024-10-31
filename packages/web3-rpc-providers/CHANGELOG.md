@@ -37,8 +37,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.0.0.rc.0]
 
-#### Added
+### Added
 
--   RC release 
+-   RC release
+
+## [1.0.0.rc.1]
+
+### Added
+
+-   When error is returned with code 429, throw rate limit error (#7102)
+
+### Changed
+
+-   Change request return type `Promise<ResultType>` to `Promise<JsonRpcResponseWithResult<ResultType>>` (#7102)
+
+## [1.0.0-rc.2]
+
+### Added
+
+-   Updated rate limit error of QuickNode provider for HTTP transport
+-   Added optional `HttpProviderOptions | SocketOptions` in `Web3ExternalProvider` and `QuickNodeProvider` for provider configs
 
 ## [Unreleased]
+
+### Added
+
+-   PublicNodeProvider was added (#7322)

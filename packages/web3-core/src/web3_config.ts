@@ -25,7 +25,7 @@ import {
 } from 'web3-types';
 import { ConfigHardforkMismatchError, ConfigChainMismatchError } from 'web3-errors';
 import { isNullish, toHex } from 'web3-utils';
-import { TransactionTypeParser } from './types.js';
+import { CustomTransactionSchema, TransactionTypeParser } from './types.js';
 // eslint-disable-next-line import/no-cycle
 import { TransactionBuilder } from './web3_context.js';
 import { Web3EventEmitter } from './web3_event_emitter.js';
@@ -48,6 +48,7 @@ export interface Web3ConfigOptions {
 	defaultNetworkId?: Numbers;
 	defaultChain: string;
 	defaultHardfork: string;
+	ignoreGasPricing: boolean;
 
 	defaultCommon?: Common;
 	defaultTransactionType: Numbers;
@@ -59,6 +60,7 @@ export interface Web3ConfigOptions {
 	};
 	transactionBuilder?: TransactionBuilder;
 	transactionTypeParser?: TransactionTypeParser;
+	customTransactionSchema?: CustomTransactionSchema;
 	defaultReturnFormat: DataFormat;
 }
 
@@ -101,7 +103,9 @@ export abstract class Web3Config
 		},
 		transactionBuilder: undefined,
 		transactionTypeParser: undefined,
+		customTransactionSchema: undefined,
 		defaultReturnFormat: DEFAULT_RETURN_FORMAT,
+		ignoreGasPricing: false,
 	};
 
 	public constructor(options?: Partial<Web3ConfigOptions>) {
@@ -114,6 +118,15 @@ export abstract class Web3Config
 		const keys = Object.keys(options) as (keyof Web3ConfigOptions)[];
 		for (const key of keys) {
 			this._triggerConfigChange(key, options[key]);
+
+			if (
+				!isNullish(options[key]) &&
+				typeof options[key] === 'number' &&
+				key === 'maxListenersWarningThreshold'
+			) {
+				// additionally set in event emitter
+				this.setMaxListenerWarningThreshold(Number(options[key]));
+			}
 		}
 		Object.assign(this.config, options);
 	}
@@ -144,7 +157,7 @@ export abstract class Web3Config
 	 * The `contractDataInputFill` options property will allow you to set the hash of the method signature and encoded parameters to the property
 	 * either `data`, `input` or both within your contract.
 	 * This will affect the contracts send, call and estimateGas methods
-	 * Default is `input`.
+	 * Default is `data`.
 	 */
 	public get contractDataInputFill() {
 		return this.config.contractDataInputFill;
@@ -197,7 +210,7 @@ export abstract class Web3Config
 	 * - `"latest"` - String: The latest block (current head of the blockchain)
 	 * - `"pending"` - String: The currently mined block (including pending transactions)
 	 * - `"finalized"` - String: (For POS networks) The finalized block is one which has been accepted as canonical by greater than 2/3 of validators
-	 * - `"safe"` - String: (For POS networks) The safe head block is one which under normal network conditions, is expected to be included in the canonical chain. Under normal network conditions the safe head and the actual tip of the chain will be equivalent (with safe head trailing only by a few seconds). Safe heads will be less likely to be reorged than the proof of work network`s latest blocks.
+	 * - `"safe"` - String: (For POS networks) The safe head block is one which under normal network conditions, is expected to be included in the canonical chain. Under normal network conditions the safe head and the actual tip of the chain will be equivalent (with safe head trailing only by a few seconds). Safe heads will be less likely to be reorged than the proof of work network's latest blocks.
 	 */
 	public set defaultBlock(val) {
 		this._triggerConfigChange('defaultBlock', val);
@@ -474,6 +487,17 @@ export abstract class Web3Config
 		this.config.defaultCommon = val;
 	}
 
+	/**
+	 *  Will get the ignoreGasPricing property. When true, the gasPrice, maxPriorityFeePerGas, and maxFeePerGas will not be autofilled in the transaction object.
+	 *  Useful when you want wallets to handle gas pricing.
+	 */
+	public get ignoreGasPricing() {
+		return this.config.ignoreGasPricing;
+	}
+	public set ignoreGasPricing(val) {
+		this._triggerConfigChange('ignoreGasPricing', val);
+		this.config.ignoreGasPricing = val;
+	}
 	public get defaultTransactionType() {
 		return this.config.defaultTransactionType;
 	}
@@ -509,6 +533,15 @@ export abstract class Web3Config
 	public set transactionTypeParser(val) {
 		this._triggerConfigChange('transactionTypeParser', val);
 		this.config.transactionTypeParser = val;
+	}
+
+	public get customTransactionSchema(): CustomTransactionSchema | undefined {
+		return this.config.customTransactionSchema;
+	}
+
+	public set customTransactionSchema(schema: CustomTransactionSchema | undefined) {
+		this._triggerConfigChange('customTransactionSchema', schema);
+		this.config.customTransactionSchema = schema;
 	}
 
 	private _triggerConfigChange<K extends keyof Web3ConfigOptions>(

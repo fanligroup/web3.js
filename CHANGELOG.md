@@ -2458,7 +2458,7 @@ If there are any bugs, improvements, optimizations or any new feature proposal f
 
 #### web3-errors
 
-- Added `InvalidIntegerError` error for fromWei and toWei (#7052)
+-   Added `InvalidIntegerError` error for fromWei and toWei (#7052)
 
 #### web3-eth
 
@@ -2484,8 +2484,8 @@ If there are any bugs, improvements, optimizations or any new feature proposal f
 
 #### web3-utils
 
-- `toWei` add warning when using large numbers or large decimals that may cause precision loss (#6908)
-- `toWei` and `fromWei` now supports integers as a unit. (#7053)  
+-   `toWei` add warning when using large numbers or large decimals that may cause precision loss (#6908)
+-   `toWei` and `fromWei` now supports integers as a unit. (#7053)
 
 ### Fixed
 
@@ -2495,13 +2495,13 @@ If there are any bugs, improvements, optimizations or any new feature proposal f
 
 #### web3-utils
 
-- `toWei` support numbers in scientific notation (#6908)
-- `toWei` and `fromWei` trims according to ether unit successfuly (#7044)
+-   `toWei` support numbers in scientific notation (#6908)
+-   `toWei` and `fromWei` trims according to ether unit successfuly (#7044)
 
 #### web3-validator
 
-- The JSON schema conversion process now correctly assigns an id when the `abi.name` is not available, for example, in the case of public mappings. (#6981)
--  `browser` entry point that was pointing to an non-existing bundle file was removed from `package.json` (#7015)
+-   The JSON schema conversion process now correctly assigns an id when the `abi.name` is not available, for example, in the case of public mappings. (#6981)
+-   `browser` entry point that was pointing to an non-existing bundle file was removed from `package.json` (#7015)
 
 #### web3-core
 
@@ -2563,4 +2563,215 @@ If there are any bugs, improvements, optimizations or any new feature proposal f
 
 -   `getName` reverse resolution
 
+### Fixed
+
+#### web3-eth
+
+-   Fixed geth issue when running a new instance, transactions will index when there are no blocks created (#7098)
+
+### Added
+
+#### web3
+
+-   `web3.eth.Contract` will get transaction middleware and use it, if `web3.eth` has transaction middleware. (#7138)
+
+#### web3-eth-contract
+
+-   `populateTransaction` was added to contract methods (#7124)
+-   Contract has `setTransactionMiddleware` and `getTransactionMiddleware` for automatically passing to `sentTransaction` for `deploy` and `send` functions (#7138)
+
+## [4.11.0]
+
+### Fixed
+
+#### web3-eth-abi
+
+-   fix encodedata in EIP-712 (#7095)
+
+#### web3-utils
+
+-   `_sendPendingRequests` will catch unhandled errors from `_sendToSocket` (#6968)
+
+#### web3-eth
+
+-   Fixed geth issue when running a new instance, transactions will index when there are no blocks created (#7098)
+
+### Changed
+
+#### web3-eth-accounts
+
+-   baseTransaction method updated (#7095)
+
+#### web3-providers-ws
+
+-   Update dependancies (#7109)
+
+#### web3-plugin-example
+
+-   Dependencies updated
+
+#### web3-rpc-providers
+
+-   Change request return type `Promise<ResultType>` to `Promise<JsonRpcResponseWithResult<ResultType>>` (#7102)
+
+### Added
+
+#### web3-eth-contract
+
+-   `populateTransaction` was added to contract methods (#7124)
+-   Contract has `setTransactionMiddleware` and `getTransactionMiddleware` for automatically passing to `sentTransaction` for `deploy` and `send` functions (#7138)
+
+#### web3-rpc-providers
+
+-   When error is returned with code 429, throw rate limit error (#7102)
+
+#### web3
+
+-   `web3.eth.Contract` will get transaction middleware and use it, if `web3.eth` has transaction middleware. (#7138)
+
+## [4.11.1]
+
+### Fixed
+
+#### web3-errors
+
+-   Fixed the undefined data in `Eip838ExecutionError` constructor (#6905)
+
+#### web3-eth
+
+-   Adds transaction property to be an empty list rather than undefined when no transactions are included in the block (#7151)
+-   Change method `getTransactionReceipt` to not be casted as `TransactionReceipt` to give proper return type (#7159)
+
+#### web3
+
+-   Remove redundant constructor of contractBuilder (#7150)
+
+## [4.12.0]
+
+### Fixed
+
+#### web3-core
+
+-   `setConfig()` fix for `setMaxListenerWarningThreshold` fix (#5079)
+
+#### web3-eth-accounts
+
+-   Fix `TransactionFactory.registerTransactionType` not working, if there is a version mistatch between `web3-eth` and `web3-eth-accounts` by saving `extraTxTypes` at `globals`. (#7197)
+
+### Added
+
+#### web3-eth-accounts
+
+-   Added public function `signMessageWithPrivateKey` (#7174)
+
+#### web3-eth-contract
+
+-   Added `populateTransaction` to the `contract.deploy(...)` properties. (#7197)
+
+#### web3-providers-http
+
+-   Added `statusCode` of response in ResponseError, `statusCode` is optional property in ResponseError.
+
+#### web3-rpc-providers
+
+-   Updated rate limit error of QuickNode provider for HTTP transport
+-   Added optional `HttpProviderOptions | SocketOptions` in `Web3ExternalProvider` and `QuickNodeProvider` for provider configs
+
+#### web3-errors
+
+-   Added optional `statusCode` property of response in ResponseError.
+
+### Changed
+
+#### web3-eth-contract
+
+-   The returnred properties of `contract.deploy(...)` are structured with a newly created class named `DeployerMethodClass`. (#7197)
+-   Add a missed accepted type for the `abi` parameter, at `dataInputEncodeMethodHelper` and `getSendTxParams`. (#7197)
+
+## [4.12.1]
+
+### Fixed
+
+#### web3-eth-accounts
+
+-   Revert `TransactionFactory.registerTransactionType` if there is a version mistatch between `web3-eth` and `web3-eth-accounts` and fix nextjs problem. (#7216)
+
+## [4.13.0]
+
+### Added
+
+#### web3-core
+
+-   Adds a new property (`customTransactionSchema`) to `Web3ConfigOptions` (#7227)
+
+#### web3-eth
+
+-   Adds the same `{transactionSchema?: ValidationSchemaInput}` that exists in `formatTransaction` to `validateTransactionForSigning`
+
+#### web3-types
+
+-   Add COMMITTED to BlockTags (#7124)
+
+### Changed
+
+#### web3-eth
+
+-   Forwards the new `web3Context.config.customTransactionSchema` to `formatTransaction`
+
+#### web3-eth-personal
+
+-   Forwards the new `web3Context.config.customTransactionSchema` to `formatTransaction`
+
+#### web3
+
+-   `Web3.providers` namespace exports `type EIP6963ProviderResponse = Map<string, EIP6963ProviderDetail>`. Return type for the static `Web3.requestEIP6963Providers` function is now `Promise<EIP6963ProviderResponse>`. (#7239)
+-   The callback function provided to the static `Web3.onNewProviderDiscovered` function expects a parameter of type `EIP6963ProvidersMapUpdateEvent` as opposed to `EIP6963AnnounceProviderEvent`. (#7242)
+
+## [4.14.0]
+
+### Added
+
+#### web3-core
+
+-   Added new property `ignoreGasPricing` to `Web3ConfigOptions`. If `ignoreGasPricing` is true, gasPrice will not be estimated (#7320)
+
+#### web3-eth
+
+-   `syncing` subscription now supports Besu and Nethermind payload format
+-   `populateGasPrice` function now checks `Web3Context.config.ignoreGasPricing`. If `ignoreGasPricing` is true, gasPrice will not be estimated (#7320)
+
+### Changed
+
+#### web3
+
+-   Exported EIP-6963 types are no longer under the `providers` namespace. (#7270)
+
+#### web3-eth
+
+-   Allow `getEthereumjsTxDataFrom` to return additional fields that may be passed if using a `customTransactionSchema`.
+
+#### web3-types
+
+-   update the type for `baseFeePerGas` at `web3.eth.getFeeHistory` to be a number. (#7291)
+
+#### web3-eth
+
+- Allow specifying percentage based factor in Web3Eth.calculateFeeData Param baseFeePerGasFactor #7332
+
+### Fixed
+
+#### web3-eth-abi
+
+-   `decodeLog` , `decodeParametersWith` , `decodeParameters` and `decodeParameters` now accepts first immutable param as well (#7288)
+
+#### web3-utils
+
+-   fix `padRight` validation failure on large `uint` (#7265)
+
 ## [Unreleased]
+
+### Added
+
+#### web3-rpc-providers
+
+-   PublicNodeProvider was added (#7322)

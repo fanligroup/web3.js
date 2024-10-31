@@ -156,6 +156,17 @@ exports[`errors Eip838ExecutionError should get the data from error.data.origina
 }
 `;
 
+exports[`errors Eip838ExecutionError should return correctly when data is undefined 1`] = `
+{
+  "cause": undefined,
+  "code": undefined,
+  "data": undefined,
+  "innerError": undefined,
+  "message": "Error",
+  "name": "Eip838ExecutionError",
+}
+`;
+
 exports[`errors InvalidConnectionError should have valid json structure 1`] = `
 {
   "cause": undefined,
@@ -228,6 +239,7 @@ exports[`errors InvalidResponseError should have valid json structure 1`] = `
   "message": "Returned error: error message",
   "name": "InvalidResponseError",
   "request": undefined,
+  "statusCode": undefined,
 }
 `;
 
@@ -305,6 +317,7 @@ exports[`errors ResponseError should have valid json structure with data 1`] = `
   "message": "Returned error: error message",
   "name": "ResponseError",
   "request": undefined,
+  "statusCode": undefined,
 }
 `;
 
@@ -325,6 +338,7 @@ exports[`errors ResponseError should have valid json structure without data 1`] 
   "message": "Returned error: error message",
   "name": "ResponseError",
   "request": undefined,
+  "statusCode": undefined,
 }
 `;
 
@@ -346,6 +360,7 @@ exports[`errors ResponseError should include the array of inner errors 1`] = `
   "message": "Returned error: error message,error message",
   "name": "ResponseError",
   "request": undefined,
+  "statusCode": undefined,
 }
 `;
 

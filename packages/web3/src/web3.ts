@@ -142,12 +142,6 @@ export class Web3<
 				addressOrOptionsOrContext?: Address | ContractInitOptions,
 				optionsOrContextOrReturnFormat?: ContractInitOptions,
 				contextOrReturnFormat?: Web3Context | DataFormat,
-			);
-			public constructor(
-				jsonInterface: Abi,
-				addressOrOptionsOrContext?: Address | ContractInitOptions,
-				optionsOrContextOrReturnFormat?: ContractInitOptions,
-				contextOrReturnFormat?: Web3Context | DataFormat,
 				returnFormat?: DataFormat,
 			) {
 				if (
@@ -203,6 +197,15 @@ export class Web3<
 
 				super(jsonInterface, address, options, context, dataFormat);
 				super.subscribeToContextEvents(self);
+
+				// eslint-disable-next-line no-use-before-define
+				if (!isNullish(eth)) {
+					// eslint-disable-next-line no-use-before-define
+					const TxMiddleware = eth.getTransactionMiddleware();
+					if (!isNullish(TxMiddleware)) {
+						super.setTransactionMiddleware(TxMiddleware);
+					}
+				}
 			}
 		}
 

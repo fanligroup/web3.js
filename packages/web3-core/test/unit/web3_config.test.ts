@@ -49,6 +49,8 @@ const defaultConfig = {
 	defaultReturnFormat: DEFAULT_RETURN_FORMAT,
 	transactionBuilder: undefined,
 	transactionTypeParser: undefined,
+	customTransactionSchema: undefined,
+	ignoreGasPricing: false,
 };
 const setValue = {
 	string: 'newValue',

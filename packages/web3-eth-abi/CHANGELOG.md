@@ -176,4 +176,26 @@ Documentation:
 
 -   Dependencies updated
 
+## [4.2.3]
+
+### Fixed
+
+-   fix encodedata in EIP-712 (#7095)
+
+## [4.2.4]
+
+### Added
+
+-   Handle common cases for smart contract errors according to EIP 838: `0x4e487b71` which is the ‘selector’ for `Panic(uint256)` and `0x08c379a0` is the ‘selector’ of `Error(string)`. (7155)
+
+## [4.3.0]
+
+### Fixed
+
+-   `decodeLog` , `decodeParametersWith` , `decodeParameters` and `decodeParameters` now accepts first immutable param as well (#7288)
+
 ## [Unreleased]
+
+### Added
+
+-   added `decodeFunctionCall` and `decodeFunctionReturn`. (#7345)
